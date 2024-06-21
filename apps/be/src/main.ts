@@ -5,14 +5,18 @@
 
 import express from 'express';
 import * as path from 'path';
+import bodyParser from 'body-parser';
+import { errorHandler } from './middlewares';
+import { userRouter } from './routes';
 
 const app = express();
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use(bodyParser.json());
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to be!' });
-});
+app.use('/api/users', userRouter);
+
+app.use(errorHandler);
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
