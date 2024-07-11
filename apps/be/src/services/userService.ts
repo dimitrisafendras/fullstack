@@ -1,21 +1,24 @@
-import { of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
-
-const users = [
-  { id: 1, name: 'John Doe' },
-  { id: 2, name: 'Jane Doe' },
-];
+import { of, switchMap } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { User } from '../models';
 
 export const getUsers$ = () => {
-  return of(users).pipe(delay(1000));
+  return of(null).pipe(
+    switchMap(() => User.find({})),
+    catchError((error) => of({ error: error.message }))
+  );
 };
 
 export const getUserById$ = (id: string) => {
-  return of(users.find(user => user.id === parseInt(id, 10))).pipe(delay(1000));
+  return of(id).pipe(
+    switchMap((userId) => User.findById(userId)),
+    catchError((error) => of({ error: error.message }))
+  );
 };
 
 export const createUser$ = (user: any) => {
-  const newUser = { id: users.length + 1, ...user };
-  users.push(newUser);
-  return of(newUser).pipe(delay(1000));
+  return of(user).pipe(
+    switchMap((userData) => User.create(userData)),
+    catchError((error) => of({ error: error.message }))
+  );
 };
