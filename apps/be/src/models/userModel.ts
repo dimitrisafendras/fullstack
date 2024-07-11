@@ -41,3 +41,32 @@ userSchema.statics.findByEmail = function (email: string) {
 
 // Create a Model.
 export const User = model<IUser>('User', userSchema);
+
+export const UserSchema = {
+  type: 'object',
+  required: ['name', 'email', 'password'],
+  properties: {
+    name: {
+      type: 'string',
+      example: 'John Doe',
+    },
+    email: {
+      type: 'string',
+      example: 'john.doe@example.com',
+    },
+    password: {
+      type: 'string',
+      example: 'password123',
+    },
+    createdAt: {
+      type: 'string',
+      format: 'date-time',
+      example: '2020-01-01T00:00:00.000Z',
+    },
+    updatedAt: {
+      type: 'string',
+      format: 'date-time',
+      example: '2020-01-01T00:00:00.000Z',
+    },
+  },
+};
