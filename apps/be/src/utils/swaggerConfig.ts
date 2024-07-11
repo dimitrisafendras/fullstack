@@ -23,6 +23,3 @@ export const swaggerConfig = {
     },
   },
 };
-//our current IP address (2.84.0.227)
-//dimitrisafendras;
-//fJOqt51hi3rzuKAX

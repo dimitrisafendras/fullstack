@@ -1,5 +1,9 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
+//our current IP address (2.84.0.227)
+//dimitrisafendras;
+//fJOqt51hi3rzuKAX
+
 const uri =
   'mongodb+srv://dimitrisafendras:fJOqt51hi3rzuKAX@fullstackcluster0.n6gzocf.mongodb.net/?retryWrites=true&w=majority&appName=FullStackCluster0';
 
