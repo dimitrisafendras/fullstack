@@ -1,7 +1,7 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 //our current IP address (2.84.0.227)
-//dimitrisafendras;
+//dimitrisafendras
 //fJOqt51hi3rzuKAX
 
 const uri =

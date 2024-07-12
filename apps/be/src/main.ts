@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import * as path from 'path';
@@ -13,14 +14,22 @@ const app = express();
 // Initialize swagger-jsdoc
 const swaggerSpec = swaggerJsdoc(swaggerConfig);
 
+// CORS options to allow requests from the frontend origin
+const corsOptions = {
+  origin: 'http://localhost:3000', // Allow only this origin to access
+  optionsSuccessStatus: 200, // For legacy browser support
+};
+
+// Use CORS with the specified options
+app.use(cors(corsOptions));
+
 // Function to start the server
 const startServer = async () => {
-  // Call connectToDatabase from db.ts to ensure database connection
-  await connectToDatabase(); // This replaces the mongoose.connect call
+  await connectToDatabase(); // Ensure database connection
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   app.use('/assets', express.static(path.join(__dirname, 'assets')));
+  app.use(bodyParser.json()); // Body parser should come before the routes
   app.use('/api/users', userRouter);
-  app.use(bodyParser.json());
   app.use(errorHandler);
 
   const port = process.env.PORT || 3333;
@@ -30,11 +39,8 @@ const startServer = async () => {
   });
   server.on('error', console.error);
 
-  // Graceful shutdown
   process.on('SIGINT', () => {
     console.log('Closing database connection and shutting down the server...');
-    // Assuming db.ts exports a client or a close function, call it here to close the connection
-    // For example: client.close();
     server.close(() => {
       console.log('Server shut down.');
       process.exit(0);
