@@ -10,15 +10,26 @@ const debug = (data) => {
 
 export const getUsers$ = () => {
   return of(null).pipe(
-    debug,
     switchMap(async () => {
-      const db = client.db('FullStackCluster0');
-      const collection = db.collection('users');
-      const users = await collection.find({}).toArray();
-      console.log('users:', users);
-      return users;
+      try {
+        console.log('Fetching users...');
+        const db = client.db('sample_mflix');
+        console.log('Connected to database:', db.databaseName);
+        const collection = db.collection('users');
+        console.log('Accessing collection:', collection.collectionName);
+
+        // Debug: Check the count of documents in the collection
+        const count = await collection.countDocuments();
+        console.log('Number of documents in the collection:', count);
+
+        const users = await collection.find({}).toArray();
+        console.log('users:', users);
+        return users;
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        throw error;
+      }
     }),
-    debug,
     catchError((error) => of({ error: error.message }))
   );
 };
