@@ -1,6 +1,4 @@
 // Swagger definition
-import { UserSchema } from '../models';
-
 export const swaggerConfig = {
   definition: {
     openapi: '3.0.0',
@@ -17,9 +15,4 @@ export const swaggerConfig = {
     ],
   },
   apis: ['./apps/be/src/routes/*.ts', './apps/be/src/controllers/*.ts'],
-  components: {
-    schemas: {
-      User: UserSchema,
-    },
-  },
 };
