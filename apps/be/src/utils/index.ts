@@ -1,2 +1,2 @@
-export { handleObservable } from './rxUtils';
+export * from './rxUtils';
 export { swaggerConfig } from './swaggerConfig';
