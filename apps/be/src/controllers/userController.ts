@@ -4,7 +4,7 @@ import { handleObservable } from '../utils';
 
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   get:
  *     summary: Returns a list of all users
  *     tags: [Users]
@@ -24,7 +24,7 @@ export const getUsers = (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /users/{id}:
  *   get:
  *     summary: Get a user by ID
  *     tags: [Users]
@@ -55,7 +55,7 @@ export const getUserById = (
 
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   post:
  *     summary: Create a new user
  *     tags: [Users]

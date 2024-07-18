@@ -14,14 +14,14 @@ const app = express();
 // Initialize swagger-jsdoc
 const swaggerSpec = swaggerJsdoc(swaggerConfig);
 
-// CORS options to allow requests from the frontend origin
-const corsOptions = {
-  origin: 'http://localhost:3000', // Allow only this origin to access
-  optionsSuccessStatus: 200, // For legacy browser support
-};
+// // CORS options to allow requests from the frontend origin
+// const corsOptions = {
+//   origin: 'http://localhost:3000', // Allow only this origin to access
+//   optionsSuccessStatus: 200, // For legacy browser support
+// };
 
 // Use CORS with the specified options
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Function to start the server
 const startServer = async () => {

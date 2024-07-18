@@ -1,4 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
+import { mapValues } from 'lodash';
 
 interface IUser extends Document {
   _id: Schema.Types.ObjectId;
@@ -38,40 +39,34 @@ export const userSchemaDefinition = {
   },
 };
 
-const userSchemaFields = Object.keys(userSchemaDefinition.properties).reduce(
-  (acc, key) => {
-    const type = userSchemaDefinition.properties[key].type;
-    const required = userSchemaDefinition.properties[key].required || false;
-    let mongooseType;
+const typeMapping = {
+  string: String,
+  'date-time': Date,
+};
 
-    switch (type) {
-      case 'string':
-        mongooseType = String;
-        break;
-      case 'date-time':
-        mongooseType = Date;
-        break;
-      default:
-        mongooseType = String;
-        break;
-    }
+const hasRequired = (prop: any): prop is { required: boolean } =>
+  'required' in prop;
 
-    acc[key] = {
+const userSchemaFields = mapValues(
+  userSchemaDefinition.properties,
+  (prop, key) => {
+    const mongooseType = typeMapping[prop.type] || String;
+
+    const field: any = {
       type: mongooseType,
-      required: required,
+      required: hasRequired(prop) ? prop.required : false,
     };
 
     if (key === 'email') {
-      acc[key].unique = true;
+      field['unique'] = true;
     }
 
     if (key === 'createdAt' || key === 'updatedAt') {
-      acc[key].default = Date.now;
+      field['default'] = Date.now;
     }
 
-    return acc;
-  },
-  {}
+    return field;
+  }
 );
 
 userSchemaFields['_id'] = {
