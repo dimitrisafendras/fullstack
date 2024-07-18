@@ -1,14 +1,16 @@
 import { of, switchMap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../models';
-import { client } from '../db';
 
 export const getUsers$ = () => {
   return of(null).pipe(
     switchMap(async () => {
-      const db = client.db('sample_mflix');
-      const collection = db.collection('users');
-      return await collection.find({}, {}).toArray();
+      try {
+        const users = await User.find({});
+        return users;
+      } catch (error) {
+        throw new Error(error.message);
+      }
     }),
     catchError((error) => of({ error: error.message }))
   );
@@ -16,14 +18,32 @@ export const getUsers$ = () => {
 
 export const getUserById$ = (id: string) => {
   return of(id).pipe(
-    switchMap((userId) => User.findById(userId)),
+    switchMap(async (userId) => {
+      try {
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error('User not found');
+        }
+        return user;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    }),
     catchError((error) => of({ error: error.message }))
   );
 };
 
 export const createUser$ = (user: any) => {
   return of(user).pipe(
-    switchMap((userData) => User.create(userData)),
+    switchMap(async (userData) => {
+      try {
+        const newUser = new User(userData);
+        await newUser.save();
+        return newUser;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    }),
     catchError((error) => of({ error: error.message }))
   );
 };
