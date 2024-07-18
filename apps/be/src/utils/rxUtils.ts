@@ -1,4 +1,4 @@
-import { NextFunction, Response, RequestHandler } from 'express';
+import { NextFunction, Response } from 'express';
 import { Observable, EMPTY } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 

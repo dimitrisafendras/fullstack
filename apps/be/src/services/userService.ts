@@ -13,7 +13,7 @@ export const getUsers$ = () => {
     switchMap(async () => {
       const db = client.db('sample_mflix');
       const collection = db.collection('users');
-      return await collection.find({}).toArray();
+      return await collection.find({}, { projection: { name: 1 } }).toArray();
     }),
     catchError((error) => of({ error: error.message }))
   );
