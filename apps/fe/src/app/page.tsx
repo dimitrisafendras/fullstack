@@ -27,7 +27,10 @@ export default function Index() {
       </Button>
       <ul>
         {data?.map((user: any) => (
-          <li key={user?._id}>{user?.name}</li>
+          <li key={user?._id}>
+            {/*{user?.email}*/}
+            {user?.name}
+          </li>
         ))}
       </ul>
     </div>

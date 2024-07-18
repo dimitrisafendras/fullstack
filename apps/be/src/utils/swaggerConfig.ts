@@ -1,4 +1,4 @@
-import { userSchemaDefinition } from '../../models';
+import { userSchemaDefinition } from '../models';
 
 export const swaggerConfig = {
   definition: {

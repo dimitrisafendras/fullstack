@@ -3,17 +3,12 @@ import { catchError } from 'rxjs/operators';
 import { User } from '../models';
 import { client } from '../db';
 
-const debug = (data) => {
-  console.log('>>>', data);
-  return data;
-};
-
 export const getUsers$ = () => {
   return of(null).pipe(
     switchMap(async () => {
       const db = client.db('sample_mflix');
       const collection = db.collection('users');
-      return await collection.find({}, { projection: { name: 1 } }).toArray();
+      return await collection.find({}, {}).toArray();
     }),
     catchError((error) => of({ error: error.message }))
   );
